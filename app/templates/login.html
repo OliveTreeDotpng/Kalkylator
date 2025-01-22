@@ -1,0 +1,15 @@
+<!--html-->
+
+<h2>Login</h2>
+<form method="POST" action="{{ url_for('login')}}">
+    <label for="username">Användarnamn:</label>
+    <input type="text" id="username" name="username" required><br><br>
+
+    <label for="password">Lösenord:</label>
+    <input type="password" id="password" name="password" required><br><br>
+
+    <button type="submit">Logga In</button>
+</form>
+<p>Har du inget konto? <a href="{{ url_for('register')}}">Registrera här</a></p>
+
+<!--html-->                                                                                                     
