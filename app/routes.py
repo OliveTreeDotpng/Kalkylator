@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app import db
 from app.models import Calculation, User
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
 
 # Förklarar vad Blueprint är och varför det används. Beskriver rutten och dess koppling till HTML-sidan.
@@ -74,8 +74,4 @@ def save_input(user_input):
     with open("input-file.txt", "a", encoding="utf-8") as file:
         file.write(f"{user_input}\n")
 
-@bp.route("/logout")
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for("/"))
+
