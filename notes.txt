@@ -1,0 +1,23 @@
+Uppgifter:
+
+Förbättra Uttrycksutvärdering | Säker Utvärdering
+Ersätt eval med en säker metod, t.ex. asteval , eller
+implementera en parser.
+Expo: Använd asteval för säker evaluering.
+
+Använda asteval för Säker Utvärdering
+1. Läs på om asteval och hur det fungerar
+2. Installera asteval med requirements.in
+3. Uppdatera routes.py för att använda asteval
+
+Övning: Uppdatera Kalkylatorn
+
+Förbättra säkerheten med asteval
+Utöka kalkylatorns funktionalitet (avancerade
+operationer som roten ur, potens, trigonometriska
+funktioner)
+Design och användarupplevelse (anpassa layout och
+färger)
+Export och import av beräkningar (till CSV, JSON, eller
+annat format)
+API för externa integrationer

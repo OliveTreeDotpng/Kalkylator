@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app import db
 from app.models import Calculation, User
-from flask_login import login_user
+from flask_login import login_user, logout_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
 
 # Förklarar vad Blueprint är och varför det används. Beskriver rutten och dess koppling till HTML-sidan.
@@ -26,7 +26,7 @@ def login():
     # Sida 18 upf-5-calcing.marp.pdf
     return render_template("login.html")
 
-@bp.route("register", methods=["GET", "POST"])
+@bp.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
         username = request.form["username"]
@@ -50,7 +50,7 @@ def logout():
     flash("You have been logged out.")
     return redirect(url_for("login"))
 
-app.route("/calculator", methods=["GET", "POST"])
+@bp.route("/calculator", methods=["GET", "POST"])
 @login_required
 def calculator():
     if request.method == "POST":
@@ -69,3 +69,13 @@ def calculator():
             flash(f"Fel i beräkningen: {e}")
     calculations = current_user.calculations
     return render_template("calculator.html", calculations=calculations)
+
+def save_input(user_input):
+    with open("input-file.txt", "a", encoding="utf-8") as file:
+        file.write(f"{user_input}\n")
+
+@bp.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("/"))
