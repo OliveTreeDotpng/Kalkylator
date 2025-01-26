@@ -3,6 +3,7 @@ from app import create_app, db
 from app.models import User, Calculation
 from werkzeug.security import generate_password_hash
 
+
 @pytest.fixture
 def test_client():
     app = create_app()
@@ -10,7 +11,7 @@ def test_client():
     app.config["SQLAALCHEMY_DATABASE_URI"] = "sqlite///:memory:"
     
     with app.test_client() as client:
-        with app.app_context:
+        with app.app_context():
             db.create_all()
             yield client
             db.session.remove()

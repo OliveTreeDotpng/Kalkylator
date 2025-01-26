@@ -5,7 +5,9 @@ from config import Config
 
 db = SQLAlchemy()
 login_manager = LoginManager()
+# Om en användare inte är inloggad, omdirigera till "login"-vyn
 login_manager.login_view = "login"
+
 
 def create_app():
     flask_app = Flask(__name__)
