@@ -1,8 +1,21 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from asteval import Interpreter
+from flask import Blueprint, request, flash, redirect, url_for, render_template
 from app import db
 from app.models import Calculation, User
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
+
+
+aeval = Interpreter(
+    use_numpy=False,
+    minimal=True,
+    no_if=True,
+    no_for=True,
+    no_while=True,
+    no_try=True,
+    no_functiondef=True,
+    no_import=True
+)
 
 # Förklarar vad Blueprint är och varför det används. Beskriver rutten och dess koppling till HTML-sidan.
 bp = Blueprint("main", __name__)
@@ -57,7 +70,7 @@ def calculator():
         expression = request.form["expression"]
         try:
             # Utvärdera uttrycket säkert
-            result = eval(expression, {"__builtins__": None}, {})
+            result = aeval(expression)
             # Spara beräkningen
             new_calc = Calculation(expression=expression,
                 result=str(result),
