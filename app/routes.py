@@ -5,7 +5,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
 
 # Förklarar vad Blueprint är och varför det används. Beskriver rutten och dess koppling till HTML-sidan.
-bp = Blueprint("name", __name__)
+bp = Blueprint("main", __name__)
 
 @bp.route("/")
 def startpage():
@@ -20,7 +20,7 @@ def login():
         user = User.query.filter_by(username=username).first()
         if user and check_password_hash(user.password, password):
             login_user(user)
-            return redirect(url_for("calculator"))
+            return redirect(url_for("main.calculator"))
         else:
             flash("Invalid username or password")
     # Sida 18 upf-5-calcing.marp.pdf
@@ -33,13 +33,13 @@ def register():
         password = request.form["password"]
         if User.query.filter_by(username=username).first():
             flash("Username already exists")
-            return redirect(url_for("register"))
-        hashed_password = generate_password_hash(password, method="sha256")
+            return redirect(url_for("main.register"))
+        hashed_password = generate_password_hash(password)
         new_user = User(username=username, password=hashed_password)            
         db.session.add(new_user)
         db.session.commit()
         flash("Registration successfull! Please log in.")
-        return redirect(url_for("login"))
+        return redirect(url_for("main.login"))
     return render_template("register.html")
 
 @bp.route("/logout")
@@ -48,7 +48,7 @@ def logout():
     logout_user()
     # Vi har inte gjort funktionen ännu
     flash("You have been logged out.")
-    return redirect(url_for("login"))
+    return redirect(url_for("main.login"))
 
 @bp.route("/calculator", methods=["GET", "POST"])
 @login_required
@@ -73,5 +73,3 @@ def calculator():
 def save_input(user_input):
     with open("input-file.txt", "a", encoding="utf-8") as file:
         file.write(f"{user_input}\n")
-
-
